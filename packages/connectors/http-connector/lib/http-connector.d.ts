@@ -3,6 +3,7 @@ import { Socket } from 'net';
 import * as Http from 'http';
 import * as Https from 'https';
 import * as Url from 'url';
+import * as GetBody from 'get-body';
 import * as CookieHelper from 'cookie';
 import { Connector, TaskConfig, ConnectorRunError } from 'low';
 import { Site, SiteMap, SiteConfig, Route } from './site';
@@ -26,7 +27,7 @@ export declare class HttpConnector extends Connector<HttpConnectorConfig, any, H
     getRequestProtocol(request: Http.IncomingMessage): 'http' | 'https';
     getRequestUrl(request: Http.IncomingMessage): Url.URL;
     getQuerystringObject(url: Url.URL): any;
-    getRequestBody(request: Http.IncomingMessage): Promise<any>;
+    getRequestBody(request: Http.IncomingMessage, getBodyOptions?: GetBody.Options): Promise<any>;
     handleError(response: Http.ServerResponse, error: Error | HttpError | ConnectorRunError, input: HttpInput): Promise<void>;
     mergeErrorHandlers(site?: Site): ErrorHandler[];
     findErrorHandler(handlers: ErrorHandler[], statusCode?: number): ErrorHandler;

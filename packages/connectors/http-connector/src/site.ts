@@ -1,4 +1,5 @@
 import UrlPattern = require("url-pattern");
+import * as GetBody from 'get-body';
 
 import { TaskConfig } from "low";
 
@@ -71,6 +72,7 @@ export interface SiteConfig {
   errorHandlers?: ErrorHandler[];
   responseHeaders?: HeaderMap;
   stripTrailingSlash?: Boolean;
+  getBodyOptions?: GetBody.Options;
 }
 
 export interface Route {

@@ -169,7 +169,7 @@ export class HttpConnector extends Connector<HttpConnectorConfig, any, HttpInput
       input.cookies = CookieHelper.parse(request.headers.cookie || '');
       input.headers = request.headers;
       input.client = this.getClientInfo(input.headers, connection);
-      input.body = await this.getRequestBody(request);
+      input.body = await this.getRequestBody(request, input.site.config.getBodyOptions);
 
       const context = await this.runTask(match.route.task, input, match.route.config);
       const output = await ObjectCompiler.compile(match.route.config.output, context);
@@ -247,7 +247,7 @@ export class HttpConnector extends Connector<HttpConnectorConfig, any, HttpInput
     return query;
   }
 
-  async getRequestBody(request: Http.IncomingMessage) {
+  async getRequestBody(request: Http.IncomingMessage, getBodyOptions?: GetBody.Options) {
     try {
       if (['GET', 'HEAD', 'DELETE'].includes(request.method || 'GET')) {
         return {};
@@ -258,7 +258,7 @@ export class HttpConnector extends Connector<HttpConnectorConfig, any, HttpInput
       }
 
       const headers = request.headers as GetBody.Headers;
-      const body = await GetBody.parse(request, headers);
+      const body = await GetBody.parse(request, headers, getBodyOptions);
       return body || {};
     } catch(err) {
       //TODO: Plain requests with no body cause `GetBody.parse()` to throw an error.

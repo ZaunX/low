@@ -169,7 +169,7 @@ class HttpConnector extends low_1.Connector {
                 input.cookies = CookieHelper.parse(request.headers.cookie || '');
                 input.headers = request.headers;
                 input.client = this.getClientInfo(input.headers, connection);
-                input.body = yield this.getRequestBody(request);
+                input.body = yield this.getRequestBody(request, input.site.config.getBodyOptions);
                 const context = yield this.runTask(match.route.task, input, match.route.config);
                 const output = yield low_1.ObjectCompiler.compile(match.route.config.output, context);
                 this.sendResponse(response, output, input.site);
@@ -235,7 +235,7 @@ class HttpConnector extends low_1.Connector {
         }
         return query;
     }
-    getRequestBody(request) {
+    getRequestBody(request, getBodyOptions) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 if (['GET', 'HEAD', 'DELETE'].includes(request.method || 'GET')) {
@@ -245,7 +245,7 @@ class HttpConnector extends low_1.Connector {
                     request.headers['content-type'] = 'text/plain';
                 }
                 const headers = request.headers;
-                const body = yield GetBody.parse(request, headers);
+                const body = yield GetBody.parse(request, headers, getBodyOptions);
                 return body || {};
             }
             catch (err) {

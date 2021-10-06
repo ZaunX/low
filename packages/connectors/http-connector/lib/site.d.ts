@@ -1,4 +1,5 @@
 import UrlPattern = require("url-pattern");
+import * as GetBody from 'get-body';
 import { TaskConfig } from "low";
 import { HttpVerbFlags, HttpVerb } from "./http-verbs";
 import { HttpTaskConfig, ErrorHandler, HeaderMap } from "./http-connector";
@@ -16,6 +17,7 @@ export interface SiteConfig {
     errorHandlers?: ErrorHandler[];
     responseHeaders?: HeaderMap;
     stripTrailingSlash?: Boolean;
+    getBodyOptions?: GetBody.Options;
 }
 export interface Route {
     urlPattern: UrlPattern;
