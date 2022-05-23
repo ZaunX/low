@@ -16,6 +16,7 @@ import { Renderer } from './renderers/renderer';
 import { MultiDoer } from './doers/multi-doer';
 import { BranchDoer } from './doers/branch-doer';
 import { FlushCacheDoer } from './doers/flush-cache-doer';
+import { JSDoer } from './doers/js-doer';
 
 import { Profiler } from './profiler';
 
@@ -73,6 +74,7 @@ export class Environment {
     MultiDoer: new MultiDoer(),
     BranchDoer: new BranchDoer(),
     FlushCacheDoer: new FlushCacheDoer(),
+    JSDoer: new JSDoer(),
   };
 
   private loggers: { [loggerName: string]: Logger<any, any> } = {

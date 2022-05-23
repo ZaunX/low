@@ -32,6 +32,7 @@ const renderer_1 = require("./renderers/renderer");
 const multi_doer_1 = require("./doers/multi-doer");
 const branch_doer_1 = require("./doers/branch-doer");
 const flush_cache_doer_1 = require("./doers/flush-cache-doer");
+const js_doer_1 = require("./doers/js-doer");
 const profiler_1 = require("./profiler");
 /**
  * The Environment class is the core of a `low` system.
@@ -84,6 +85,7 @@ class Environment {
             MultiDoer: new multi_doer_1.MultiDoer(),
             BranchDoer: new branch_doer_1.BranchDoer(),
             FlushCacheDoer: new flush_cache_doer_1.FlushCacheDoer(),
+            JSDoer: new js_doer_1.JSDoer(),
         };
         this.loggers = {
             Logger: new logger_1.Logger()
