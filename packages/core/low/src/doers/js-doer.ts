@@ -18,7 +18,7 @@ export class JSDoer<C, S> extends Doer<any, IMap<string>> {
     }
   }
 
-  hasModule = (name: string) => typeof this.modules[name] === 'function';
+  hasModule = (name: string) => !!this.modules[name];
 
   getOrSetModule(name: string, code?: string) {
     if (this.hasModule(name)) return this.modules[name];

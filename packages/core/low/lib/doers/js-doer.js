@@ -20,7 +20,7 @@ class JSDoer extends doer_1.Doer {
         super(...arguments);
         this.modules = {};
         this.moduleErrors = {};
-        this.hasModule = (name) => typeof this.modules[name] === 'function';
+        this.hasModule = (name) => !!this.modules[name];
     }
     setup() {
         return __awaiter(this, void 0, void 0, function* () {
