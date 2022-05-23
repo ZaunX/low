@@ -29,5 +29,8 @@
     "ts-jest": "^24.3.0",
     "typedoc": "^0.16.6",
     "typescript": "^3.7.4"
+  },
+  "dependencies": {
+    "dot-object": "^2.1.4"
   }
 }
