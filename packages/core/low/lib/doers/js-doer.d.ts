@@ -35,7 +35,7 @@ export declare class JSModule {
 export declare type JSModuleFunction = (env: Environment, context: ConnectorContext<any>, modules: IMap<JSModule>, parameters: any, utilities: JSModuleUtilities) => Promise<any>;
 export interface JSModuleUtilities {
     getModule: <T>(modules: any, moduleName: string) => JSModule;
-    executeDoer: <T>(env: Environment, doerName: string, context: ConnectorContext<any>, coreConfig: T, runAsTask: boolean, metadata: any) => Promise<any>;
+    executeDoer: <T>(env: Environment, doerName: string, context: ConnectorContext<any>, coreConfig: T, runAsTask?: boolean, metadata?: any) => Promise<any>;
 }
 export interface JSTask {
     module: string;
