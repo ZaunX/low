@@ -21,14 +21,36 @@ class JSDoer extends doer_1.Doer {
         this.modules = {};
         this.moduleErrors = {};
         this.hasModule = (name) => !!this.modules[name];
+        this.getModule = (modules, moduleName) => {
+            const module = modules[moduleName];
+            if (!module)
+                throw new Error(`No JSModule with the name '${moduleName}' has been loaded`);
+            return module.exports;
+        };
+        this.executeDoer = (env, doerName, context, coreConfig, runAsTask = false, metadata = {}) => __awaiter(this, void 0, void 0, function* () {
+            const doer = env.getDoer(doerName);
+            const config = { name: `JSModule`, doer: doerName, config: coreConfig, metadata };
+            if (runAsTask) {
+                return yield doer.execute(context, config);
+            }
+            else {
+                return yield doer.main(context, config, coreConfig);
+            }
+        });
     }
     setup() {
         return __awaiter(this, void 0, void 0, function* () {
+            const errors = [];
             for (const [name, code] of Object.entries(this.config)) {
                 const newModule = new JSModule(name, code);
                 if (newModule.setup)
                     yield newModule.setup();
                 this.modules[newModule.name] = newModule;
+                if (newModule.hasErrors)
+                    errors.push(newModule);
+            }
+            if (errors.length > 0) {
+                console.error(`The following ${errors.length} JSDoer modules have errors: ${errors.map(error => error.name).join(', ')}`);
             }
         });
     }
@@ -47,7 +69,9 @@ class JSDoer extends doer_1.Doer {
             try {
                 const module = this.getOrSetModule(config.module, config.code);
                 const method = module.getMethod(config.method);
-                const output = yield method(this.env, context, this.modules, config.parameters);
+                const output = yield method(this.env, context, this.modules, config.parameters, {
+                    getModule: this.getModule, executeDoer: this.executeDoer
+                });
                 return output;
             }
             catch (err) {
@@ -64,31 +88,41 @@ class JSModule {
         this._path = path;
         this._code = code;
     }
+    get errors() { return this._errors; }
     get path() { return this._path; }
     get code() { return this._code; }
-    get exports() { return this.module.exports; }
-    get main() {
-        return (typeof this.module.exports === 'function' ?
+    get exports() {
+        return (this.module ?
             this.module.exports :
-            typeof this.module.exports.main === 'function' ?
-                this.module.exports.main :
-                null);
+            {});
+    }
+    get main() {
+        return (!this.module ?
+            null :
+            typeof this.module.exports === 'function' ?
+                this.module.exports :
+                typeof this.module.exports.main === 'function' ?
+                    this.module.exports.main :
+                    null);
     }
     get setup() {
-        return (utilities_1.isObject(this.module.exports) && typeof this.module.exports.setup === 'function' ?
-            this.module.exports.setup :
-            null);
+        return (!this.module ?
+            null :
+            utilities_1.isObject(this.module.exports) && typeof this.module.exports.setup === 'function' ?
+                this.module.exports.setup :
+                null);
     }
+    get hasErrors() { return Object.keys(this._errors).length > 0; }
     get module() {
         if (!this._module) {
             try {
                 this._module = new module_1.default('');
                 this._module.paths = require.main.paths;
+                this._module.path = this.path;
                 this._module._compile(this.code, this.path);
             }
             catch (err) {
                 this._errors.module = err;
-                throw err;
             }
         }
         return this._module;
@@ -103,10 +137,9 @@ class JSModule {
             }
             catch (err) {
                 this._errors.name = err;
-                throw err;
             }
         }
-        return this._name;
+        return this._name || this.path;
     }
     getMethod(name = 'main') {
         if (name === 'main' && this.main)
