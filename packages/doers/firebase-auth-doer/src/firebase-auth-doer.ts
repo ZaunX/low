@@ -24,76 +24,76 @@ export class FirebaseAuthDoer extends Doer<any, IMap<Firebase.ServiceAccount>> {
 
     switch (coreConfig.method) {
       case ('createCustomToken'):
-        const createCustomTokenResult = await Firebase.auth().createCustomToken(coreConfig.uid, coreConfig.developerClaims);
+        const createCustomTokenResult = await app.auth().createCustomToken(coreConfig.uid, coreConfig.developerClaims);
         return createCustomTokenResult;
       case ('createUser'):
-        const createUserResult = await Firebase.auth().createUser(coreConfig.properties);
+        const createUserResult = await app.auth().createUser(coreConfig.properties);
         return createUserResult;
       case ('deleteUser'):
-        await Firebase.auth().deleteUser(coreConfig.uid);
+        await app.auth().deleteUser(coreConfig.uid);
         return true;
       case ('deleteUsers'):
-        const deleteUsersResult = await Firebase.auth().deleteUsers(coreConfig.uids);
+        const deleteUsersResult = await app.auth().deleteUsers(coreConfig.uids);
         return deleteUsersResult;
       case ('getUser'):
-        const getUserResult = await Firebase.auth().getUser(coreConfig.uid);
+        const getUserResult = await app.auth().getUser(coreConfig.uid);
         return getUserResult;
       case ('getUserByEmail'):
-        const getUserByEmailResult = await Firebase.auth().getUserByEmail(coreConfig.email);
+        const getUserByEmailResult = await app.auth().getUserByEmail(coreConfig.email);
         return getUserByEmailResult;
       case ('getUserByPhoneNumber'):
-        const getUserByPhoneNumberResult = await Firebase.auth().getUserByPhoneNumber(coreConfig.phoneNumber);
+        const getUserByPhoneNumberResult = await app.auth().getUserByPhoneNumber(coreConfig.phoneNumber);
         return getUserByPhoneNumberResult;
       case ('getUsers'):
-        const getUsersResult = await Firebase.auth().getUsers(coreConfig.identifiers);
+        const getUsersResult = await app.auth().getUsers(coreConfig.identifiers);
         return getUsersResult;
       case ('listUsers'):
-        const listUsersResult = await Firebase.auth().listUsers(coreConfig.maxResults, coreConfig.pageToken);
+        const listUsersResult = await app.auth().listUsers(coreConfig.maxResults, coreConfig.pageToken);
         return listUsersResult;
       case ('updateUser'):
-        const updateUserResult = await Firebase.auth().updateUser(coreConfig.uid, coreConfig.properties);
+        const updateUserResult = await app.auth().updateUser(coreConfig.uid, coreConfig.properties);
         return updateUserResult;
       case ('verifyIdToken'):
-        const verifyIdTokenResult = await Firebase.auth().verifyIdToken(coreConfig.idToken, coreConfig.checkRevoked);
+        const verifyIdTokenResult = await app.auth().verifyIdToken(coreConfig.idToken, coreConfig.checkRevoked);
         return verifyIdTokenResult;
       case ('setCustomUserClaims'):
-        await Firebase.auth().setCustomUserClaims(coreConfig.uid, coreConfig.customUserClaims);
+        await app.auth().setCustomUserClaims(coreConfig.uid, coreConfig.customUserClaims);
         return true;
       case ('revokeRefreshTokens'):
-        await Firebase.auth().revokeRefreshTokens(coreConfig.uid);
+        await app.auth().revokeRefreshTokens(coreConfig.uid);
         return true;
       case ('importUsers'):
-        const importUsersResult = await Firebase.auth().importUsers(coreConfig.users, coreConfig.options);
+        const importUsersResult = await app.auth().importUsers(coreConfig.users, coreConfig.options);
         return importUsersResult;
       case ('createSessionCookie'):
-        const createSessionCookieResult = await Firebase.auth().createSessionCookie(coreConfig.idToken, coreConfig.sessionCookieOptions);
+        const createSessionCookieResult = await app.auth().createSessionCookie(coreConfig.idToken, coreConfig.sessionCookieOptions);
         return createSessionCookieResult;
       case ('verifySessionCookie'):
-        const verifySessionCookieResult = await Firebase.auth().verifySessionCookie(coreConfig.sessionCookie, coreConfig.checkForRevocation);
+        const verifySessionCookieResult = await app.auth().verifySessionCookie(coreConfig.sessionCookie, coreConfig.checkForRevocation);
         return verifySessionCookieResult;
       case ('generatePasswordResetLink'):
-        const generatePasswordResetLinkResult = await Firebase.auth().generatePasswordResetLink(coreConfig.email, coreConfig.actionCodeSettings);
+        const generatePasswordResetLinkResult = await app.auth().generatePasswordResetLink(coreConfig.email, coreConfig.actionCodeSettings);
         return generatePasswordResetLinkResult;
       case ('generateEmailVerificationLink'):
-        const generateEmailVerificationLinkResult = await Firebase.auth().generateEmailVerificationLink(coreConfig.email, coreConfig.actionCodeSettings);
+        const generateEmailVerificationLinkResult = await app.auth().generateEmailVerificationLink(coreConfig.email, coreConfig.actionCodeSettings);
         return generateEmailVerificationLinkResult;
       case ('generateSignInWithEmailLink'):
-        const generateSignInWithEmailLinkResult = await Firebase.auth().generateSignInWithEmailLink(coreConfig.email, coreConfig.actionCodeSettings);
+        const generateSignInWithEmailLinkResult = await app.auth().generateSignInWithEmailLink(coreConfig.email, coreConfig.actionCodeSettings);
         return generateSignInWithEmailLinkResult;
       case ('listProviderConfigs'):
-        const listProviderConfigsResult = await Firebase.auth().listProviderConfigs(coreConfig.options);
+        const listProviderConfigsResult = await app.auth().listProviderConfigs(coreConfig.options);
         return listProviderConfigsResult;
       case ('getProviderConfig'):
-        const getProviderConfigResult = await Firebase.auth().getProviderConfig(coreConfig.providerId);
+        const getProviderConfigResult = await app.auth().getProviderConfig(coreConfig.providerId);
         return getProviderConfigResult;
       case ('deleteProviderConfig'):
-        await Firebase.auth().deleteProviderConfig(coreConfig.providerId);
+        await app.auth().deleteProviderConfig(coreConfig.providerId);
         return true;
       case ('updateProviderConfig'):
-        const updateProviderConfigResult = await Firebase.auth().updateProviderConfig(coreConfig.providerId, coreConfig.updateConfig);
+        const updateProviderConfigResult = await app.auth().updateProviderConfig(coreConfig.providerId, coreConfig.updateConfig);
         return updateProviderConfigResult;
       case ('createProviderConfig'):
-        const createProviderConfigResult = await Firebase.auth().createProviderConfig(coreConfig.config);
+        const createProviderConfigResult = await app.auth().createProviderConfig(coreConfig.config);
         return createProviderConfigResult;
     }
   }

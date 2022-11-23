@@ -20,6 +20,7 @@ class FirebaseAuthDoer extends low_1.Doer {
         return __awaiter(this, void 0, void 0, function* () {
             for (const [name, serviceAccount] of Object.entries(this.secrets)) {
                 const exists = !!firebase_admin_1.default.apps.find((app) => (app === null || app === void 0 ? void 0 : app.name) === name);
+                //TODO Instead of skipping initialisation, we need to delete and reinitialise the app
                 if (!exists) {
                     firebase_admin_1.default.initializeApp({
                         credential: firebase_admin_1.default.credential.cert(serviceAccount)
@@ -36,76 +37,76 @@ class FirebaseAuthDoer extends low_1.Doer {
             }
             switch (coreConfig.method) {
                 case ('createCustomToken'):
-                    const createCustomTokenResult = yield firebase_admin_1.default.auth().createCustomToken(coreConfig.uid, coreConfig.developerClaims);
+                    const createCustomTokenResult = yield app.auth().createCustomToken(coreConfig.uid, coreConfig.developerClaims);
                     return createCustomTokenResult;
                 case ('createUser'):
-                    const createUserResult = yield firebase_admin_1.default.auth().createUser(coreConfig.properties);
+                    const createUserResult = yield app.auth().createUser(coreConfig.properties);
                     return createUserResult;
                 case ('deleteUser'):
-                    yield firebase_admin_1.default.auth().deleteUser(coreConfig.uid);
+                    yield app.auth().deleteUser(coreConfig.uid);
                     return true;
                 case ('deleteUsers'):
-                    const deleteUsersResult = yield firebase_admin_1.default.auth().deleteUsers(coreConfig.uids);
+                    const deleteUsersResult = yield app.auth().deleteUsers(coreConfig.uids);
                     return deleteUsersResult;
                 case ('getUser'):
-                    const getUserResult = yield firebase_admin_1.default.auth().getUser(coreConfig.uid);
+                    const getUserResult = yield app.auth().getUser(coreConfig.uid);
                     return getUserResult;
                 case ('getUserByEmail'):
-                    const getUserByEmailResult = yield firebase_admin_1.default.auth().getUserByEmail(coreConfig.email);
+                    const getUserByEmailResult = yield app.auth().getUserByEmail(coreConfig.email);
                     return getUserByEmailResult;
                 case ('getUserByPhoneNumber'):
-                    const getUserByPhoneNumberResult = yield firebase_admin_1.default.auth().getUserByPhoneNumber(coreConfig.phoneNumber);
+                    const getUserByPhoneNumberResult = yield app.auth().getUserByPhoneNumber(coreConfig.phoneNumber);
                     return getUserByPhoneNumberResult;
                 case ('getUsers'):
-                    const getUsersResult = yield firebase_admin_1.default.auth().getUsers(coreConfig.identifiers);
+                    const getUsersResult = yield app.auth().getUsers(coreConfig.identifiers);
                     return getUsersResult;
                 case ('listUsers'):
-                    const listUsersResult = yield firebase_admin_1.default.auth().listUsers(coreConfig.maxResults, coreConfig.pageToken);
+                    const listUsersResult = yield app.auth().listUsers(coreConfig.maxResults, coreConfig.pageToken);
                     return listUsersResult;
                 case ('updateUser'):
-                    const updateUserResult = yield firebase_admin_1.default.auth().updateUser(coreConfig.uid, coreConfig.properties);
+                    const updateUserResult = yield app.auth().updateUser(coreConfig.uid, coreConfig.properties);
                     return updateUserResult;
                 case ('verifyIdToken'):
-                    const verifyIdTokenResult = yield firebase_admin_1.default.auth().verifyIdToken(coreConfig.idToken, coreConfig.checkRevoked);
+                    const verifyIdTokenResult = yield app.auth().verifyIdToken(coreConfig.idToken, coreConfig.checkRevoked);
                     return verifyIdTokenResult;
                 case ('setCustomUserClaims'):
-                    yield firebase_admin_1.default.auth().setCustomUserClaims(coreConfig.uid, coreConfig.customUserClaims);
+                    yield app.auth().setCustomUserClaims(coreConfig.uid, coreConfig.customUserClaims);
                     return true;
                 case ('revokeRefreshTokens'):
-                    yield firebase_admin_1.default.auth().revokeRefreshTokens(coreConfig.uid);
+                    yield app.auth().revokeRefreshTokens(coreConfig.uid);
                     return true;
                 case ('importUsers'):
-                    const importUsersResult = yield firebase_admin_1.default.auth().importUsers(coreConfig.users, coreConfig.options);
+                    const importUsersResult = yield app.auth().importUsers(coreConfig.users, coreConfig.options);
                     return importUsersResult;
                 case ('createSessionCookie'):
-                    const createSessionCookieResult = yield firebase_admin_1.default.auth().createSessionCookie(coreConfig.idToken, coreConfig.sessionCookieOptions);
+                    const createSessionCookieResult = yield app.auth().createSessionCookie(coreConfig.idToken, coreConfig.sessionCookieOptions);
                     return createSessionCookieResult;
                 case ('verifySessionCookie'):
-                    const verifySessionCookieResult = yield firebase_admin_1.default.auth().verifySessionCookie(coreConfig.sessionCookie, coreConfig.checkForRevocation);
+                    const verifySessionCookieResult = yield app.auth().verifySessionCookie(coreConfig.sessionCookie, coreConfig.checkForRevocation);
                     return verifySessionCookieResult;
                 case ('generatePasswordResetLink'):
-                    const generatePasswordResetLinkResult = yield firebase_admin_1.default.auth().generatePasswordResetLink(coreConfig.email, coreConfig.actionCodeSettings);
+                    const generatePasswordResetLinkResult = yield app.auth().generatePasswordResetLink(coreConfig.email, coreConfig.actionCodeSettings);
                     return generatePasswordResetLinkResult;
                 case ('generateEmailVerificationLink'):
-                    const generateEmailVerificationLinkResult = yield firebase_admin_1.default.auth().generateEmailVerificationLink(coreConfig.email, coreConfig.actionCodeSettings);
+                    const generateEmailVerificationLinkResult = yield app.auth().generateEmailVerificationLink(coreConfig.email, coreConfig.actionCodeSettings);
                     return generateEmailVerificationLinkResult;
                 case ('generateSignInWithEmailLink'):
-                    const generateSignInWithEmailLinkResult = yield firebase_admin_1.default.auth().generateSignInWithEmailLink(coreConfig.email, coreConfig.actionCodeSettings);
+                    const generateSignInWithEmailLinkResult = yield app.auth().generateSignInWithEmailLink(coreConfig.email, coreConfig.actionCodeSettings);
                     return generateSignInWithEmailLinkResult;
                 case ('listProviderConfigs'):
-                    const listProviderConfigsResult = yield firebase_admin_1.default.auth().listProviderConfigs(coreConfig.options);
+                    const listProviderConfigsResult = yield app.auth().listProviderConfigs(coreConfig.options);
                     return listProviderConfigsResult;
                 case ('getProviderConfig'):
-                    const getProviderConfigResult = yield firebase_admin_1.default.auth().getProviderConfig(coreConfig.providerId);
+                    const getProviderConfigResult = yield app.auth().getProviderConfig(coreConfig.providerId);
                     return getProviderConfigResult;
                 case ('deleteProviderConfig'):
-                    yield firebase_admin_1.default.auth().deleteProviderConfig(coreConfig.providerId);
+                    yield app.auth().deleteProviderConfig(coreConfig.providerId);
                     return true;
                 case ('updateProviderConfig'):
-                    const updateProviderConfigResult = yield firebase_admin_1.default.auth().updateProviderConfig(coreConfig.providerId, coreConfig.updateConfig);
+                    const updateProviderConfigResult = yield app.auth().updateProviderConfig(coreConfig.providerId, coreConfig.updateConfig);
                     return updateProviderConfigResult;
                 case ('createProviderConfig'):
-                    const createProviderConfigResult = yield firebase_admin_1.default.auth().createProviderConfig(coreConfig.config);
+                    const createProviderConfigResult = yield app.auth().createProviderConfig(coreConfig.config);
                     return createProviderConfigResult;
             }
         });
