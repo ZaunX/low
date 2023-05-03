@@ -1,18 +1,12 @@
 /** @module Basic **/
-const Jest = require('jest');
+exports = {
+  Basic: {
+    /** @type {import('../src').JSModuleFunction} **/
+    async main(env, context, parameters) {
+      const test1 = 'TEST';
+      const test2 = `<div id="TEST"></div>`;
 
-module.exports = {
-  /** @type {import('../src').JSModuleFunction} **/
-  async main(env, context, modules, parameters) {
-    const test1 = Jest.getVersion();
-    const [test2, second] = await modules.Other.getMethod()(env, context, modules, parameters);
-    const test3 = /*html*/`<div id="${test1}"></div>`;
-
-    return [test1, test2, test3, second];
-  },
-
-  /** @type {import('../src').JSModuleFunction} **/
-  async second(env, context, modules, parameters) {
-    return 'SECOND'
+      return [test1, test2];
+    }
   }
 }

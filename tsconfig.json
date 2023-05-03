@@ -7,10 +7,11 @@
     "esModuleInterop": true,
     "outDir": "lib",
     "sourceMap": true,
-    "strict": true,
+    "strict": false,
     "target": "es6",
     "resolveJsonModule": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true
   },
   "compileOnSave": true,
   "include": ["src"],

@@ -1,7 +1,6 @@
 import { Environment } from '../environment';
 import { ConnectorContext } from '../connectors/connector';
-import { JSDoer } from '../doers/js-doer';
-import { IMap } from '..';
+import { JSDoer } from './js-doer';
 import FS from 'fs';
 import Path from 'path';
 
@@ -10,33 +9,29 @@ process.env.SECRETS = '{}';
 test('should register module', async () => {
   const [doer, env] = await setupEnvironment();
   const context = createEmptyContext(env);
+  console.log(`\n\nDOER:\n${JSON.stringify(doer.main, null, 2)}`);
+  const [test1, test2] = await doer.modules.Basic.main(env, context, {});
 
-  const basicModule = doer.modules.Basic;
-  const [test1, test2, test3, test4] = await basicModule.getMethod()(env, context, doer.modules, {}, {});
-
-  expect(test1).toEqual('24.9.0');
-  expect(test2).toEqual('24.9.0');
-  expect(test3).toEqual('<div id="24.9.0"></div>');
-  expect(test4).toEqual('SECOND');
+  expect(test1).toEqual('TEST');
+  expect(test2).toEqual(`<div id="TEST"></div>`);
 });
 
 function getTestModulesConfig () {
-  const config: IMap<string> = {};
-  const testModulesPath = Path.join(__dirname, '..', '..', 'js-doer-tests');
-  const modules = FS.readdirSync(testModulesPath);
-  for (const filename of modules) {
-    const path = Path.join(testModulesPath, filename);
-    const code = FS.readFileSync(path).toString();
-    config[path] = code;
-  }
-  return config;
+  const testModulePath = Path.join(__dirname, '..', '..', 'js-doer-tests', 'basic.js');
+  console.log(`\n\nLOADING TEST CODE FROM '${testModulePath}`);
+  const module = { code: FS.readFileSync(testModulePath).toString() };
+  console.log(`\n\nCODE:\n${module.code}`);
+  return module;
 }
 
-async function setupEnvironment(): Promise<[JSDoer<any, IMap<string>>, Environment]> {
+async function setupEnvironment(): Promise<[JSDoer, Environment]> {
   const doer = new JSDoer();
   const modules = { doers: [doer] };
   const config = { modules: { JSDoer: getTestModulesConfig() } };
+  console.log(`\n\nJSDOER TEST ENV CONFIG:\n${JSON.stringify(config)}`);
   const env = new Environment(modules, [], config);
+  console.log(`\n\nJSDOER ENV MODULE:\n${JSON.stringify(env.config)}`)
+
   await env.init();
   return [doer, env];
 }

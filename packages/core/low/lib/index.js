@@ -7,7 +7,7 @@ __export(require("./cache-managers/cache-manager"));
 __export(require("./connectors/connector"));
 __export(require("./connectors/connector-run-error"));
 __export(require("./doers/doer"));
-__export(require("./doers/js-doer"));
+__export(require("./doers/js-doer.js"));
 __export(require("./doers/multi-doer"));
 __export(require("./environment"));
 __export(require("./module"));
